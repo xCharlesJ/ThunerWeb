@@ -23,6 +23,7 @@
 
     html {
       background: var(--bg);
+      scroll-behavior: smooth;
     }
 
     body {
@@ -219,6 +220,16 @@
       background: rgba(6, 11, 18, 0.34);
       font-size: 12px;
       letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
+    }
+
+    .pill:hover,
+    .pill:focus-visible {
+      color: var(--text);
+      border-color: rgba(110, 231, 255, 0.42);
+      background: rgba(74, 124, 191, 0.16);
+      outline: none;
     }
 
     .grid {
@@ -283,6 +294,146 @@
       line-height: 2;
     }
 
+    .intro-carousel {
+      margin-top: clamp(56px, 8vw, 92px);
+      padding-top: 36px;
+      border-top: 1px solid rgba(146, 227, 255, 0.13);
+      scroll-margin-top: 92px;
+    }
+
+    .intro-carousel-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .intro-carousel h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .intro-carousel-note {
+      max-width: 520px;
+      color: rgba(238, 247, 255, 0.68);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .intro-viewport {
+      overflow: hidden;
+      border-radius: 22px;
+    }
+
+    .intro-track {
+      display: flex;
+      gap: 18px;
+      transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+
+    .intro-card {
+      flex: 0 0 calc((100% - 36px) / 3);
+      min-height: 430px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(146, 227, 255, 0.16);
+      border-radius: 22px;
+      padding: 28px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(74, 124, 191, 0.18), transparent 36%),
+        linear-gradient(180deg, rgba(10, 16, 25, 0.94), rgba(4, 7, 12, 0.96));
+      box-shadow: inset 0 0 34px rgba(110, 231, 255, 0.035);
+    }
+
+    .intro-card-kicker {
+      color: rgba(110, 231, 255, 0.78);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+    }
+
+    .intro-card h3 {
+      margin-top: 24px;
+      color: var(--text);
+      font-size: clamp(24px, 2.8vw, 34px);
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+
+    .intro-card p {
+      margin-top: 18px;
+      color: rgba(238, 247, 255, 0.68);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .intro-product-image {
+      width: min(82%, 250px);
+      max-height: 260px;
+      display: block;
+      margin: 22px auto 0;
+      object-fit: contain;
+      background: transparent;
+      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.32));
+    }
+
+    .intro-product-image.is-lower {
+      margin-top: 72px;
+    }
+
+    .intro-card-plus {
+      align-self: flex-end;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #06101a;
+      background: rgba(238, 247, 255, 0.92);
+      font-size: 26px;
+      font-weight: 650;
+      line-height: 1;
+    }
+
+    .intro-controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .intro-control {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(146, 227, 255, 0.16);
+      border-radius: 999px;
+      color: rgba(238, 247, 255, 0.82);
+      background: rgba(6, 11, 18, 0.58);
+      cursor: pointer;
+      font-size: 24px;
+      transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    .intro-control:hover,
+    .intro-control:focus-visible {
+      color: #06101a;
+      background: rgba(238, 247, 255, 0.92);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .intro-control:disabled {
+      cursor: not-allowed;
+      opacity: 0.38;
+      transform: none;
+    }
+
     .back {
       display: inline-flex;
       align-items: center;
@@ -329,6 +480,19 @@
         grid-template-columns: 1fr;
       }
 
+      .intro-carousel-head {
+        display: block;
+      }
+
+      .intro-carousel-note {
+        margin-top: 14px;
+      }
+
+      .intro-card {
+        flex-basis: 82%;
+        min-height: 360px;
+      }
+
       .card {
         border-right: 0;
         border-bottom: 1px solid rgba(146, 227, 255, 0.12);
@@ -366,36 +530,99 @@
     <p class="lead">“变电全科医生”系列，是自带AI内核的新一代电力智能体，更是“人工智能+能源行业”的划时代之作。它如电网的智慧医官，通过实时“问诊”精准感知变压器油中溶解气体、局部放电、振动、负荷等关键参量，以透明化监测与智能预警为核心，提供一体化设备风险管控与健康状态评估解决方案，驱动变电运维决策升级，守护电网安全脉络。</p>
 
     <div class="meta" aria-label="产品特性">
-      <span class="pill">产品简介</span>
-      <span class="pill">智能诊断</span>
-      <span class="pill">边缘感知</span>
-      <span class="pill">运维辅助</span>
+      <a class="pill" href="#product-summary">产品简介</a>
+      <span class="pill">系统框架</span>
+      <span class="pill">解决方案</span>
+      <span class="pill">项目案例</span>
     </div>
 
-    <section class="grid" aria-label="产品能力">
-      <article class="card">
-        <span>01 / MONITOR</span>
-        <h2>多源状态感知</h2>
-        <p>融合传感终端与现场数据，持续采集关键设备状态，为设备健康评估提供基础数据支撑。</p>
-      </article>
-      <article class="card">
-        <span>02 / DIAGNOSE</span>
-        <h2>异常识别诊断</h2>
-        <p>围绕典型故障征兆和运行趋势，提供风险识别、异常提示和诊断辅助能力。</p>
-      </article>
-      <article class="card">
-        <span>03 / OPERATION</span>
-        <h2>智能运维闭环</h2>
-        <p>将监测、告警、分析和处置建议连接起来，提升运维响应效率和设备管理精细度。</p>
-      </article>
-    </section>
+    <section class="intro-carousel" id="product-summary" aria-labelledby="intro-carousel-title">
+      <div class="intro-carousel-head">
+        <h2 id="intro-carousel-title">产品简介</h2>
+      </div>
 
-    <section class="section">
-      <h2>适用场景</h2>
-      <p>适用于变电站主设备、辅助设备及现场环境的综合在线监测场景，可服务设备状态评估、隐患排查、巡检辅助、故障预警和运维决策等业务。</p>
+      <div class="intro-viewport">
+        <div class="intro-track" id="introTrack">
+          <article class="intro-card">
+            <div>
+              <span class="intro-card-kicker">01 / SYJM-TMS100</span>
+              <h3>变压器多物理量集成传感器</h3>
+              <img class="intro-product-image" src="assets/TMS-100.png" alt="变压器多物理量集成传感器">
+            </div>
+            <span class="intro-card-plus" aria-hidden="true">+</span>
+          </article>
+          <article class="intro-card">
+            <div>
+              <span class="intro-card-kicker">02 / SYJM-SSA100</span>
+              <h3>变压器多通道油乙炔快速检测传感器</h3>
+              <img class="intro-product-image" src="assets/SSA-100.png" alt="变压器多通道油乙炔快速检测传感器">
+            </div>
+            <span class="intro-card-plus" aria-hidden="true">+</span>
+          </article>
+          <article class="intro-card">
+            <div>
+              <span class="intro-card-kicker">03 / SYJM-MSC100</span>
+              <h3>便携式色谱传感器</h3>
+              <img class="intro-product-image is-lower" src="assets/MSC-100.png" alt="便携式色谱传感器">
+            </div>
+            <span class="intro-card-plus" aria-hidden="true">+</span>
+          </article>
+          <article class="intro-card">
+            <div>
+              <span class="intro-card-kicker">04 / SYJM-SSC100</span>
+              <h3>变压器油色谱传感器</h3>
+              <img class="intro-product-image" src="assets/SSC-100.png" alt="变压器油色谱传感器">
+            </div>
+            <span class="intro-card-plus" aria-hidden="true">+</span>
+          </article>
+        </div>
+      </div>
+
+      <div class="intro-controls" aria-label="产品简介卡片切换">
+        <button class="intro-control" type="button" data-carousel-prev aria-label="上一张产品简介">‹</button>
+        <button class="intro-control" type="button" data-carousel-next aria-label="下一张产品简介">›</button>
+      </div>
     </section>
 
     <a class="back" href="index.html">返回首页</a>
   </main>
+  <script>
+    const introTrack = document.getElementById('introTrack');
+    const introCards = Array.from(document.querySelectorAll('.intro-card'));
+    const introPrev = document.querySelector('[data-carousel-prev]');
+    const introNext = document.querySelector('[data-carousel-next]');
+    let introIndex = 0;
+
+    function visibleIntroCards() {
+      if (window.matchMedia('(max-width: 760px)').matches) {
+        return 1;
+      }
+      return 3;
+    }
+
+    function updateIntroCarousel() {
+      const maxIndex = Math.max(0, introCards.length - visibleIntroCards());
+      introIndex = Math.max(0, Math.min(introIndex, maxIndex));
+      const card = introCards[0];
+      const gap = parseFloat(getComputedStyle(introTrack).columnGap || getComputedStyle(introTrack).gap) || 0;
+      const step = card.getBoundingClientRect().width + gap;
+      introTrack.style.transform = `translate3d(${-introIndex * step}px, 0, 0)`;
+      introPrev.disabled = introIndex === 0;
+      introNext.disabled = introIndex === maxIndex;
+    }
+
+    introPrev.addEventListener('click', () => {
+      introIndex -= 1;
+      updateIntroCarousel();
+    });
+
+    introNext.addEventListener('click', () => {
+      introIndex += 1;
+      updateIntroCarousel();
+    });
+
+    window.addEventListener('resize', updateIntroCarousel);
+    updateIntroCarousel();
+  </script>
 </body>
 </html>
