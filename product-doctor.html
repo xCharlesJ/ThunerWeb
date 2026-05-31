@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全科变电医生系列 - 南方电网传感科技(广东)有限公司</title>
+  <style>
+    :root {
+      --bg: #05070b;
+      --line: rgba(146, 227, 255, 0.13);
+      --text: #eef7ff;
+      --muted: #9aa8b6;
+      --cyan: #6ee7ff;
+      --mint: #8fffd2;
+      --blue: #4A7CBF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(61, 118, 168, 0.25), transparent 34%),
+        radial-gradient(circle at 82% 76%, rgba(73, 255, 205, 0.10), transparent 30%),
+        #05070b;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 86%, transparent);
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 72px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 7, 11, 0.74);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand,
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-size: clamp(13px, 1.7vw, 16px);
+      font-weight: 650;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      display: block;
+      border-radius: 4px;
+      background: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 3vw, 34px);
+      list-style: none;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-links a {
+      color: rgba(238, 247, 255, 0.68);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .submenu {
+      position: absolute;
+      top: calc(100% + 18px);
+      left: 50%;
+      min-width: 260px;
+      list-style: none;
+      padding: 10px;
+      border: 1px solid rgba(146, 227, 255, 0.14);
+      border-radius: 8px;
+      background: rgba(5, 8, 13, 0.94);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(18px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -8px);
+      transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+    }
+
+    .submenu::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -18px;
+      height: 18px;
+    }
+
+    .nav-item:hover .submenu,
+    .nav-item:focus-within .submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+
+    .submenu a {
+      display: block;
+      padding: 11px 12px;
+      border-radius: 6px;
+      color: rgba(238, 247, 255, 0.76);
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      line-height: 1.45;
+      text-transform: none;
+    }
+
+    .submenu a:hover,
+    .submenu a:focus-visible {
+      color: var(--text);
+      background: rgba(74, 124, 191, 0.16);
+      outline: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: clamp(72px, 11vw, 132px) 0 72px;
+    }
+
+    .eyebrow {
+      color: rgba(143, 255, 210, 0.82);
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      max-width: 900px;
+      font-size: clamp(42px, 7vw, 92px);
+      line-height: 1.02;
+      font-weight: 740;
+      letter-spacing: 0;
+    }
+
+    .product-title {
+      margin-right: auto;
+      margin-left: auto;
+      text-align: center;
+    }
+
+    .product-title span {
+      display: block;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin-top: 28px;
+      color: rgba(238, 247, 255, 0.74);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.9;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .pill {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(146, 227, 255, 0.16);
+      border-radius: 999px;
+      padding: 0 14px;
+      color: rgba(238, 247, 255, 0.72);
+      background: rgba(6, 11, 18, 0.34);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: clamp(46px, 7vw, 76px);
+      border: 1px solid rgba(146, 227, 255, 0.16);
+      border-radius: 8px;
+      background: rgba(6, 11, 18, 0.42);
+      box-shadow: inset 0 0 28px rgba(110, 231, 255, 0.035);
+      overflow: hidden;
+    }
+
+    .card {
+      min-height: 230px;
+      padding: 24px;
+      border-right: 1px solid rgba(146, 227, 255, 0.12);
+    }
+
+    .card:last-child {
+      border-right: 0;
+    }
+
+    .card span {
+      color: rgba(110, 231, 255, 0.78);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+    }
+
+    .card h2 {
+      margin-top: 20px;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: 0.72fr 1.28fr;
+      gap: clamp(28px, 5vw, 72px);
+      margin-top: clamp(56px, 8vw, 92px);
+      padding-top: 36px;
+      border-top: 1px solid rgba(146, 227, 255, 0.13);
+    }
+
+    .section h2 {
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.25;
+    }
+
+    .section p {
+      color: rgba(238, 247, 255, 0.72);
+      font-size: 15px;
+      line-height: 2;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      margin-top: 44px;
+      border: 1px solid rgba(146, 227, 255, 0.18);
+      border-radius: 999px;
+      padding: 0 18px;
+      color: rgba(238, 247, 255, 0.82);
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 760px) {
+      .nav {
+        height: auto;
+        min-height: 64px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .submenu {
+        left: 0;
+        min-width: min(270px, calc(100vw - 40px));
+        transform: translate(0, -8px);
+      }
+
+      .nav-item:hover .submenu,
+      .nav-item:focus-within .submenu {
+        transform: translate(0, 0);
+      }
+
+      .grid,
+      .section {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        border-right: 0;
+        border-bottom: 1px solid rgba(146, 227, 255, 0.12);
+      }
+
+      .card:last-child {
+        border-bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="主导航">
+    <a class="brand" href="index.html" aria-label="南方电网传感科技(广东)有限公司">
+      <img class="brand-logo" src="assets/logo-1.png" alt="" aria-hidden="true">
+      南方电网传感科技(广东)有限公司
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <a href="index.html#visual" aria-haspopup="true">产品介绍</a>
+        <ul class="submenu" aria-label="产品介绍子菜单">
+          <li><a href="product-doctor.html">变电全科医生系列</a></li>
+          <li><a href="index.html#product-oms">输电多物理量集成传感器（OMS）</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html">关于我们</a></li>
+    </ul>
+  </nav>
+
+  <main class="page">
+    <div class="eyebrow">Product Series</div>
+    <h1 class="product-title">
+      <span>变电全科医生系列</span>
+    </h1>
+    <p class="lead">“变电全科医生”系列，是自带AI内核的新一代电力智能体，更是“人工智能+能源行业”的划时代之作。它如电网的智慧医官，通过实时“问诊”精准感知变压器油中溶解气体、局部放电、振动、负荷等关键参量，以透明化监测与智能预警为核心，提供一体化设备风险管控与健康状态评估解决方案，驱动变电运维决策升级，守护电网安全脉络。</p>
+
+    <div class="meta" aria-label="产品特性">
+      <span class="pill">产品简介</span>
+      <span class="pill">智能诊断</span>
+      <span class="pill">边缘感知</span>
+      <span class="pill">运维辅助</span>
+    </div>
+
+    <section class="grid" aria-label="产品能力">
+      <article class="card">
+        <span>01 / MONITOR</span>
+        <h2>多源状态感知</h2>
+        <p>融合传感终端与现场数据，持续采集关键设备状态，为设备健康评估提供基础数据支撑。</p>
+      </article>
+      <article class="card">
+        <span>02 / DIAGNOSE</span>
+        <h2>异常识别诊断</h2>
+        <p>围绕典型故障征兆和运行趋势，提供风险识别、异常提示和诊断辅助能力。</p>
+      </article>
+      <article class="card">
+        <span>03 / OPERATION</span>
+        <h2>智能运维闭环</h2>
+        <p>将监测、告警、分析和处置建议连接起来，提升运维响应效率和设备管理精细度。</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>适用场景</h2>
+      <p>适用于变电站主设备、辅助设备及现场环境的综合在线监测场景，可服务设备状态评估、隐患排查、巡检辅助、故障预警和运维决策等业务。</p>
+    </section>
+
+    <a class="back" href="index.html">返回首页</a>
+  </main>
+</body>
+</html>

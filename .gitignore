@@ -1,0 +1,4 @@
+snapshots/
+.trae/
+server.out.log
+server.err.log

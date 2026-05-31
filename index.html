@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THUNER - Minimal Tech</title>
+  <style>
+    :root {
+      --bg: #05070b;
+      --panel: rgba(8, 13, 20, 0.58);
+      --line: rgba(146, 227, 255, 0.13);
+      --text: #eef7ff;
+      --muted: #8d9ca8;
+      --cyan: #6ee7ff;
+      --blue: #7ca7ff;
+      --mint: #8fffd2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 22% 24%, rgba(61, 118, 168, 0.22), transparent 34%),
+        radial-gradient(circle at 76% 72%, rgba(73, 255, 205, 0.10), transparent 30%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 42%, rgba(0, 0, 0, 0.22));
+      mix-blend-mode: screen;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 72px);
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(5, 7, 11, 0.74), rgba(5, 7, 11, 0.18));
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: clamp(13px, 1.7vw, 16px);
+      font-weight: 650;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      display: block;
+      border-radius: 4px;
+      background: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 3vw, 34px);
+      list-style: none;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-links a {
+      color: rgba(238, 247, 255, 0.68);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 180ms ease, text-shadow 180ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      text-shadow: 0 0 18px rgba(110, 231, 255, 0.45);
+    }
+
+    .submenu {
+      position: absolute;
+      top: calc(100% + 18px);
+      left: 50%;
+      min-width: 260px;
+      list-style: none;
+      padding: 10px;
+      border: 1px solid rgba(146, 227, 255, 0.14);
+      border-radius: 8px;
+      background: rgba(5, 8, 13, 0.94);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(18px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -8px);
+      transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+    }
+
+    .submenu::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -18px;
+      height: 18px;
+    }
+
+    .nav-item:hover .submenu,
+    .nav-item:focus-within .submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+
+    .submenu a {
+      display: block;
+      padding: 11px 12px;
+      border-radius: 6px;
+      color: rgba(238, 247, 255, 0.76);
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      line-height: 1.45;
+      text-transform: none;
+    }
+
+    .submenu a:hover,
+    .submenu a:focus-visible {
+      color: var(--text);
+      background: rgba(74, 124, 191, 0.16);
+      outline: none;
+      text-shadow: none;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 3;
+      min-height: 100dvh;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: 92px clamp(20px, 5vw, 72px) 34px;
+      pointer-events: none;
+    }
+
+    .hero-center {
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .hero-copy {
+      max-width: 860px;
+      transform: translateY(-1vh);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(143, 255, 210, 0.82);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before,
+    .eyebrow::after {
+      content: "";
+      width: 26px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(143, 255, 210, 0.7));
+    }
+
+    .eyebrow::after {
+      background: linear-gradient(90deg, rgba(143, 255, 210, 0.7), transparent);
+    }
+
+    h1 {
+      font-size: clamp(46px, 10vw, 132px);
+      line-height: 0.88;
+      font-weight: 720;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      text-shadow: none;
+    }
+
+    .hero-title-image {
+      width: auto;
+      max-width: min(72vw, 520px);
+      max-height: clamp(260px, 46vh, 520px);
+      display: block;
+      margin: 0 auto;
+      object-fit: contain;
+      background: transparent;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition:
+        opacity 1200ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1200ms cubic-bezier(0.22, 1, 0.36, 1),
+        filter 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .hero-title-image.is-entering {
+      opacity: 0;
+      transform: translateY(18px) scale(0.98);
+      filter: blur(6px);
+    }
+
+    .subtitle {
+      width: min(680px, 100%);
+      margin: 24px auto 0;
+      color: rgba(238, 247, 255, 0.72);
+      font-size: clamp(15px, 2vw, 19px);
+      line-height: 1.8;
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    .chip {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(146, 227, 255, 0.16);
+      border-radius: 999px;
+      padding: 0 14px;
+      color: rgba(238, 247, 255, 0.72);
+      background: rgba(6, 11, 18, 0.34);
+      box-shadow: inset 0 0 18px rgba(110, 231, 255, 0.045);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .intro {
+      justify-self: stretch;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      letter-spacing: 0.03em;
+    }
+
+    .intro p {
+      max-width: 640px;
+    }
+
+    .signal {
+      min-width: 186px;
+      display: grid;
+      gap: 9px;
+      color: rgba(238, 247, 255, 0.58);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-align: right;
+    }
+
+    .signal span {
+      display: block;
+    }
+
+    .cursor-hint {
+      color: rgba(110, 231, 255, 0.72);
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        height: 60px;
+      }
+
+      .nav-links {
+        gap: 14px;
+      }
+
+      .nav-links a {
+        font-size: 11px;
+      }
+
+      .submenu {
+        left: auto;
+        right: 0;
+        min-width: min(270px, calc(100vw - 40px));
+        transform: translate(0, -8px);
+      }
+
+      .nav-item:hover .submenu,
+      .nav-item:focus-within .submenu {
+        transform: translate(0, 0);
+      }
+
+      .hero {
+        padding: 82px 20px 24px;
+      }
+
+      h1 {
+        font-size: clamp(42px, 17vw, 76px);
+      }
+
+      .hero-title-image {
+        max-width: min(72vw, 320px);
+        max-height: 42vh;
+      }
+
+      .subtitle {
+        font-size: 14px;
+      }
+
+      .chip {
+        min-height: 32px;
+        padding: 0 12px;
+        font-size: 11px;
+      }
+
+      .intro {
+        display: grid;
+      }
+
+      .signal {
+        min-width: 0;
+        text-align: left;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-title-image {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        transition: none;
+      }
+
+      .cursor-hint {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="主导航">
+    <a class="brand" href="index.html" aria-label="南方电网传感科技(广东)有限公司">
+      <img class="brand-logo" src="assets/logo-1.png" alt="" aria-hidden="true">
+      南方电网传感科技(广东)有限公司
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <a href="#visual" aria-haspopup="true">产品介绍</a>
+        <ul class="submenu" aria-label="产品介绍子菜单">
+          <li><a href="product-doctor.html">变电全科医生系列</a></li>
+          <li><a href="#product-oms">输电多物理量集成传感器（OMS）</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html">关于我们</a></li>
+    </ul>
+  </nav>
+
+  <main class="hero" id="visual">
+    <section class="hero-center" aria-label="点云粒子主视觉">
+      <div class="hero-copy">
+        <div class="eyebrow">极目传感</div>
+        <img class="hero-title-image" src="assets/mn1.png" alt="南方电网 守望电力">
+      </div>
+    </section>
+
+    <footer class="intro" id="contact">
+      <p>南方电网传感科技（广东）有限公司<br>地址：广东省广州市黄埔区莲花砚路5号龙盛科创湾6号楼</p>
+    </footer>
+  </main>
+  <script>
+    const heroTitleImage = document.querySelector('.hero-title-image');
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      heroTitleImage.classList.add('is-entering');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          heroTitleImage.classList.remove('is-entering');
+        });
+      });
+    }
+  </script>
+</body>
+</html>

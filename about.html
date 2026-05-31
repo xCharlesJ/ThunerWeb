@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我们 - 南方电网传感科技(广东)有限公司</title>
+  <style>
+    :root {
+      --bg: #05070b;
+      --line: rgba(146, 227, 255, 0.13);
+      --text: #eef7ff;
+      --muted: #8d9ca8;
+      --cyan: #6ee7ff;
+      --mint: #8fffd2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(61, 118, 168, 0.22), transparent 34%),
+        radial-gradient(circle at 82% 76%, rgba(73, 255, 205, 0.10), transparent 30%),
+        #05070b;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 86%, transparent);
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 72px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 7, 11, 0.74);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand,
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-size: clamp(13px, 1.7vw, 16px);
+      font-weight: 650;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      display: block;
+      border-radius: 4px;
+      background: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 3vw, 34px);
+      list-style: none;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-links a {
+      color: rgba(238, 247, 255, 0.68);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .submenu {
+      position: absolute;
+      top: calc(100% + 18px);
+      left: 50%;
+      min-width: 260px;
+      list-style: none;
+      padding: 10px;
+      border: 1px solid rgba(146, 227, 255, 0.14);
+      border-radius: 8px;
+      background: rgba(5, 8, 13, 0.94);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(18px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -8px);
+      transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+    }
+
+    .submenu::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -18px;
+      height: 18px;
+    }
+
+    .nav-item:hover .submenu,
+    .nav-item:focus-within .submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+
+    .submenu a {
+      display: block;
+      padding: 11px 12px;
+      border-radius: 6px;
+      color: rgba(238, 247, 255, 0.76);
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      line-height: 1.45;
+      text-transform: none;
+    }
+
+    .submenu a:hover,
+    .submenu a:focus-visible {
+      color: var(--text);
+      background: rgba(74, 124, 191, 0.16);
+      outline: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: clamp(72px, 11vw, 132px) 0 72px;
+    }
+
+    .eyebrow {
+      color: rgba(143, 255, 210, 0.82);
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      max-width: 920px;
+      font-size: clamp(38px, 7vw, 92px);
+      line-height: 1.02;
+      font-weight: 740;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 780px;
+      margin-top: 28px;
+      color: rgba(238, 247, 255, 0.74);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.9;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: clamp(42px, 7vw, 72px);
+    }
+
+    .card {
+      min-height: 210px;
+      border: 1px solid rgba(146, 227, 255, 0.16);
+      border-radius: 8px;
+      padding: 24px;
+      background: rgba(6, 11, 18, 0.42);
+      box-shadow: inset 0 0 28px rgba(110, 231, 255, 0.035);
+    }
+
+    .card span {
+      color: rgba(110, 231, 255, 0.78);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+    }
+
+    .card h2 {
+      margin-top: 20px;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: 0.72fr 1.28fr;
+      gap: clamp(28px, 5vw, 72px);
+      margin-top: clamp(56px, 8vw, 92px);
+      padding-top: 36px;
+      border-top: 1px solid rgba(146, 227, 255, 0.13);
+    }
+
+    .section h2 {
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.25;
+    }
+
+    .section p {
+      color: rgba(238, 247, 255, 0.72);
+      font-size: 15px;
+      line-height: 2;
+    }
+
+    .history {
+      margin-top: clamp(64px, 9vw, 108px);
+      padding: clamp(36px, 5vw, 56px);
+      border-radius: 8px;
+      background: #ffffff;
+      color: #182231;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+    }
+
+    .history-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .history-kicker {
+      color: #4A7CBF;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .history h2 {
+      max-width: 620px;
+      margin-top: 12px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .history-note {
+      max-width: 300px;
+      color: #617084;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .timeline-scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 18px 2px 10px;
+      scrollbar-color: rgba(74, 124, 191, 0.42) transparent;
+    }
+
+    .timeline-stage {
+      position: relative;
+      min-width: 1080px;
+      height: 440px;
+    }
+
+    .timeline-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .timeline-line {
+      fill: none;
+      stroke: #4A7CBF;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 1400;
+      stroke-dashoffset: 1400;
+      filter: drop-shadow(0 10px 18px rgba(74, 124, 191, 0.20));
+      transition: stroke-dashoffset 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .history.is-visible .timeline-line {
+      stroke-dashoffset: 0;
+    }
+
+    .timeline-list {
+      position: absolute;
+      inset: 0;
+      list-style: none;
+    }
+
+    .timeline-item {
+      position: absolute;
+      left: calc(var(--x) * 1%);
+      top: calc(var(--y) * 1px);
+      width: 160px;
+      opacity: 0;
+      transform: translate(-50%, 24px);
+      transition:
+        opacity 560ms ease,
+        transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: calc(var(--i) * 70ms);
+    }
+
+    .timeline-item.is-visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .timeline-marker {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+      border: 2px solid #4A7CBF;
+      border-radius: 50%;
+      background: #ffffff;
+      cursor: pointer;
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        background-color 180ms ease;
+    }
+
+    .timeline-marker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4A7CBF;
+    }
+
+    .timeline-marker:hover,
+    .timeline-marker:focus-visible {
+      transform: scale(1.22);
+      background: #eef5ff;
+      box-shadow: 0 0 0 8px rgba(74, 124, 191, 0.12);
+      outline: none;
+    }
+
+    .timeline-card {
+      margin-top: 16px;
+      padding: 14px 14px 15px;
+      border: 1px solid rgba(74, 124, 191, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 12px 32px rgba(74, 124, 191, 0.10);
+    }
+
+    .timeline-item.is-up .timeline-card {
+      margin-top: 0;
+      margin-bottom: 16px;
+      transform: translateY(calc(-100% - 22px));
+    }
+
+    .timeline-year {
+      display: block;
+      color: #4A7CBF;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1;
+    }
+
+    .timeline-text {
+      margin-top: 10px;
+      color: #304054;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      margin-top: 44px;
+      border: 1px solid rgba(146, 227, 255, 0.18);
+      border-radius: 999px;
+      padding: 0 18px;
+      color: rgba(238, 247, 255, 0.82);
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 760px) {
+      .nav {
+        height: auto;
+        min-height: 64px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .submenu {
+        left: 0;
+        min-width: min(270px, calc(100vw - 40px));
+        transform: translate(0, -8px);
+      }
+
+      .nav-item:hover .submenu,
+      .nav-item:focus-within .submenu {
+        transform: translate(0, 0);
+      }
+
+      .grid,
+      .section {
+        grid-template-columns: 1fr;
+      }
+
+      .history {
+        padding: 28px 20px;
+      }
+
+      .history-header {
+        display: block;
+      }
+
+      .history-note {
+        max-width: none;
+        margin-top: 16px;
+      }
+
+      .timeline-scroll {
+        overflow: visible;
+        padding-top: 8px;
+      }
+
+      .timeline-stage {
+        min-width: 0;
+        height: auto;
+      }
+
+      .timeline-svg {
+        display: none;
+      }
+
+      .timeline-list {
+        position: relative;
+        display: grid;
+        gap: 22px;
+        padding: 10px 0 4px 28px;
+      }
+
+      .timeline-list::before {
+        content: "";
+        position: absolute;
+        top: 14px;
+        bottom: 14px;
+        left: 10px;
+        width: 3px;
+        border-radius: 999px;
+        background: #4A7CBF;
+      }
+
+      .timeline-item,
+      .timeline-item.is-visible {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: auto;
+        transform: translateY(18px);
+      }
+
+      .timeline-item.is-visible {
+        transform: translateY(0);
+      }
+
+      .timeline-marker {
+        position: absolute;
+        left: -28px;
+        top: 10px;
+        margin: 0;
+      }
+
+      .timeline-card,
+      .timeline-item.is-up .timeline-card {
+        margin: 0;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="主导航">
+    <a class="brand" href="index.html" aria-label="南方电网传感科技(广东)有限公司">
+      <img class="brand-logo" src="assets/logo-1.png" alt="" aria-hidden="true">
+      南方电网传感科技(广东)有限公司
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <a href="index.html#visual" aria-haspopup="true">产品介绍</a>
+        <ul class="submenu" aria-label="产品介绍子菜单">
+          <li><a href="product-doctor.html">变电全科医生系列</a></li>
+          <li><a href="index.html#product-oms">输电多物理量集成传感器（OMS）</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html">关于我们</a></li>
+    </ul>
+  </nav>
+
+  <main class="page">
+    <div class="eyebrow">About Us</div>
+    <h1>面向电力场景的传感科技与数字化能力建设者</h1>
+    <p class="lead">南方电网传感科技(广东)有限公司聚焦传感器、感知终端、数据采集与智能化应用，服务电力设备状态监测、运维管理和能源数字化升级，为客户提供稳定、可靠、可持续迭代的技术方案。</p>
+
+    <section class="grid" aria-label="公司能力">
+      <article class="card">
+        <span>01 / SENSING</span>
+        <h2>智能感知</h2>
+        <p>围绕电网设备与现场环境，建设高可靠感知能力，支撑状态监测、异常识别和数据采集。</p>
+      </article>
+      <article class="card">
+        <span>02 / DATA</span>
+        <h2>数据连接</h2>
+        <p>通过轻量化终端与平台能力，打通现场数据、设备资产和业务系统之间的信息链路。</p>
+      </article>
+      <article class="card">
+        <span>03 / SERVICE</span>
+        <h2>行业服务</h2>
+        <p>面向电力运维、能源管理和数字化转型场景，提供从方案设计到落地实施的专业支持。</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>公司愿景</h2>
+      <p>以传感技术为基础，以数据价值为牵引，持续提升电力系统的可观测、可管理和可预测能力。我们希望用更清晰的感知、更稳健的连接和更高效的应用，帮助能源行业实现安全、绿色、智能的发展。</p>
+    </section>
+
+    <section class="history" aria-labelledby="history-title">
+      <div class="history-header">
+        <div>
+          <div class="history-kicker">Development History</div>
+          <h2 id="history-title">公司发展历程</h2>
+        </div>
+        <p class="history-note">从透明电网理念到规模化应用，持续推进智能传感能力在电力场景中的落地。</p>
+      </div>
+
+      <div class="timeline-scroll" tabindex="0" aria-label="横向滚动查看公司发展时间线">
+        <div class="timeline-stage">
+          <svg class="timeline-svg" viewBox="0 0 1080 440" aria-hidden="true" focusable="false">
+            <path class="timeline-line" d="M 90 214 C 148 130, 210 126, 276 198 S 390 316, 462 226 S 580 98, 656 188 S 770 318, 838 226 S 938 118, 994 204" />
+          </svg>
+          <ol class="timeline-list" aria-label="2017 到 2025 公司历史事件">
+            <li class="timeline-item" style="--i: 0; --x: 8.5; --y: 214;">
+              <button class="timeline-marker" type="button" aria-label="2017：透明电网概念提出"></button>
+              <div class="timeline-card">
+                <span class="timeline-year">2017</span>
+                <p class="timeline-text">透明电网概念提出</p>
+              </div>
+            </li>
+            <li class="timeline-item is-up" style="--i: 1; --x: 18.5; --y: 154;">
+              <button class="timeline-marker" type="button" aria-label="2018：传感科研团队成立"></button>
+              <div class="timeline-card">
+                <span class="timeline-year">2018</span>
+                <p class="timeline-text">传感科研团队成立</p>
+              </div>
+            </li>
+            <li class="timeline-item" style="--i: 2; --x: 28.5; --y: 198;">
+              <button class="timeline-marker" type="button" aria-label="2019：智能传感产品线启动"></button>
+              <div class="timeline-card">
+                <span class="timeline-year">2019</span>
+                <p class="timeline-text">智能传感产品线启动</p>
+              </div>
+            </li>
+            <li class="timeline-item is-up" style="--i: 3; --x: 39.5; --y: 276;">
+              <button class="timeline-marker" type="button" aria-label="2020：智能传感器研发应用攻坚"></button>
+              <div class="timeline-card">
+                <span class="timeline-year">2020</span>
+                <p class="timeline-text">智能传感器研发应用攻坚</p>
+              </div>
+            </li>
+            <li class="timeline-item" style="--i: 4; --x: 50.5; --y: 174;">
+              <button class="timeline-marker" type="button" aria-label="2021：牵头成立传感标委会"></button>
+              <div class="timeline-card">
+                <span class="timeline-year">2021</span>
+                <p class="timeline-text">牵头成立传感标委会</p>
+              </div>
+            </li>
+            <li class="timeline-item is-up" style="--i: 5; --x: 61; --y: 188;">
+              <button class="timeline-marker" type="button" aria-label="2022：智能传感器规模化应用"></button>
+              <div class="timeline-card">
+                <span class="timeline-year">2022</span>
+                <p class="timeline-text">智能传感器规模化应用</p>
+              </div>
+            </li>
+            <li class="timeline-item" style="--i: 6; --x: 72; --y: 278;">
+              <button class="timeline-marker" type="button" aria-label="2023：南网传感公司成立"></button>
+              <div class="timeline-card">
+                <span class="timeline-year">2023</span>
+                <p class="timeline-text">南网传感公司成立</p>
+              </div>
+            </li>
+            <li class="timeline-item is-up" style="--i: 7; --x: 82.5; --y: 174;">
+              <button class="timeline-marker" type="button" aria-label="2024：公司销售额破亿"></button>
+              <div class="timeline-card">
+                <span class="timeline-year">2024</span>
+                <p class="timeline-text">公司销售额破亿</p>
+              </div>
+            </li>
+            <li class="timeline-item" style="--i: 8; --x: 92; --y: 204;">
+              <button class="timeline-marker" type="button" aria-label="2025：公司蓬勃发展"></button>
+              <div class="timeline-card">
+                <span class="timeline-year">2025</span>
+                <p class="timeline-text">公司蓬勃发展</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <a class="back" href="index.html">返回首页</a>
+  </main>
+  <script>
+    const historySection = document.querySelector('.history');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+    if ('IntersectionObserver' in window) {
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            sectionObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.28 });
+
+      const itemObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            itemObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.35, rootMargin: '0px 0px -8% 0px' });
+
+      sectionObserver.observe(historySection);
+      timelineItems.forEach((item) => itemObserver.observe(item));
+    } else {
+      historySection.classList.add('is-visible');
+      timelineItems.forEach((item) => item.classList.add('is-visible'));
+    }
+  </script>
+</body>
+</html>
