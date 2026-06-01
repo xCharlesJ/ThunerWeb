@@ -157,6 +157,82 @@
       outline: none;
     }
 
+    .nav-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(146, 227, 255, 0.16);
+      border-radius: 8px;
+      background: rgba(6, 11, 18, 0.36);
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 180ms ease, background 180ms ease;
+    }
+
+    .nav-toggle:hover,
+    .nav-toggle:focus-visible {
+      border-color: rgba(143, 255, 210, 0.46);
+      background: rgba(74, 124, 191, 0.16);
+      outline: none;
+    }
+
+    .nav-toggle-icon,
+    .nav-toggle-icon::before,
+    .nav-toggle-icon::after {
+      width: 20px;
+      height: 2px;
+      display: block;
+      border-radius: 999px;
+      background: currentColor;
+      transition: transform 180ms ease, opacity 180ms ease;
+    }
+
+    .nav-toggle-icon {
+      position: relative;
+    }
+
+    .nav-toggle-icon::before,
+    .nav-toggle-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+    }
+
+    .nav-toggle-icon::before {
+      top: -7px;
+    }
+
+    .nav-toggle-icon::after {
+      top: 7px;
+    }
+
+    .nav.is-open .nav-toggle-icon {
+      transform: rotate(45deg);
+    }
+
+    .nav.is-open .nav-toggle-icon::before {
+      transform: translateY(7px) rotate(90deg);
+    }
+
+    .nav.is-open .nav-toggle-icon::after {
+      opacity: 0;
+      transform: translateY(-7px);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     .page {
       position: relative;
       z-index: 1;
@@ -425,29 +501,142 @@
 
     @media (max-width: 760px) {
       .nav {
-        height: auto;
-        min-height: 64px;
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 12px;
-        padding-top: 16px;
-        padding-bottom: 16px;
+        height: 60px;
+        padding: 0 20px;
+      }
+
+      .brand {
+        min-width: 0;
+        max-width: calc(100% - 56px);
+        overflow: hidden;
+        font-size: 14px;
+        text-overflow: ellipsis;
+      }
+
+      .brand-logo {
+        flex: 0 0 auto;
+      }
+
+      .nav-toggle {
+        display: inline-flex;
       }
 
       .nav-links {
-        width: 100%;
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 16px;
+        right: 16px;
+        display: grid;
+        align-items: stretch;
+        gap: 4px;
+        padding: 10px;
+        border: 1px solid rgba(146, 227, 255, 0.14);
+        border-radius: 8px;
+        background: rgba(5, 8, 13, 0.96);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34);
+        backdrop-filter: blur(18px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+      }
+
+      .nav.is-open .nav-links {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 13px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+      }
+
+      .nav-item > a[aria-haspopup="true"] {
+        display: flex;
+        align-items: center;
         justify-content: space-between;
+        gap: 12px;
+      }
+
+      .nav-item > a[aria-haspopup="true"]::after {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        opacity: 0.8;
+        transform: rotate(45deg) translateY(-2px);
+        transition: transform 180ms ease;
+      }
+
+      .nav-item.is-submenu-open > a[aria-haspopup="true"]::after {
+        transform: rotate(225deg) translate(-2px, -1px);
+      }
+
+      .nav-links a:hover,
+      .nav-links a:focus-visible {
+        background: rgba(74, 124, 191, 0.16);
+        outline: none;
       }
 
       .submenu {
-        left: 0;
-        min-width: min(270px, calc(100vw - 40px));
-        transform: translate(0, -8px);
+        position: static;
+        min-width: 0;
+        display: grid;
+        gap: 4px;
+        margin: 4px 0 8px;
+        padding: 0 0 0 14px;
+        border: 0;
+        border-left: 1px solid rgba(143, 255, 210, 0.24);
+        background: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        transform: none;
+        transition: max-height 220ms ease, opacity 180ms ease, visibility 180ms ease;
       }
 
       .nav-item:hover .submenu,
       .nav-item:focus-within .submenu {
-        transform: translate(0, 0);
+        transform: none;
+      }
+
+      .nav-item:not(.is-submenu-open):hover .submenu,
+      .nav-item:not(.is-submenu-open):focus-within .submenu {
+        max-height: 0;
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .nav-item.is-submenu-open .submenu {
+        max-height: 140px;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+      }
+
+      .submenu::before {
+        display: none;
+      }
+
+      .submenu a {
+        padding: 11px 12px;
+        color: rgba(238, 247, 255, 0.82);
+        background: rgba(6, 11, 18, 0.42);
+        font-size: 12px;
+        letter-spacing: 0.02em;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+        text-shadow: none;
       }
 
       .grid,
@@ -534,10 +723,14 @@
       <img class="brand-logo" src="assets/logo-1.png" alt="" aria-hidden="true">
       南方电网传感科技(广东)有限公司
     </a>
-    <ul class="nav-links">
+    <button class="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">
+      <span class="sr-only">打开导航</span>
+      <span class="nav-toggle-icon" aria-hidden="true"></span>
+    </button>
+    <ul class="nav-links" id="primary-navigation">
       <li class="nav-item">
-        <a href="index.html#visual" aria-haspopup="true">产品介绍</a>
-        <ul class="submenu" aria-label="产品介绍子菜单">
+        <a href="index.html#visual" aria-haspopup="true" aria-expanded="false" aria-controls="product-submenu">产品介绍</a>
+        <ul class="submenu" id="product-submenu" aria-label="产品介绍子菜单">
           <li><a href="product-doctor.html">变电全科医生系列</a></li>
           <li><a href="index.html#product-oms">输电多物理量集成传感器（OMS）</a></li>
         </ul>
@@ -660,6 +853,66 @@
     <a class="back" href="index.html">返回首页</a>
   </main>
   <script>
+    const nav = document.querySelector('.nav');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const submenuTrigger = document.querySelector('.nav-item > a[aria-haspopup="true"]');
+    const submenuItem = submenuTrigger.closest('.nav-item');
+
+    function isMobileNav() {
+      return window.matchMedia('(max-width: 760px)').matches;
+    }
+
+    function setSubmenuOpen(isOpen) {
+      submenuItem.classList.toggle('is-submenu-open', isOpen);
+      submenuTrigger.setAttribute('aria-expanded', String(isOpen));
+    }
+
+    function setNavOpen(isOpen) {
+      nav.classList.toggle('is-open', isOpen);
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+      navToggle.querySelector('.sr-only').textContent = isOpen ? '关闭导航' : '打开导航';
+      if (!isOpen) {
+        setSubmenuOpen(false);
+      }
+    }
+
+    navToggle.addEventListener('click', () => {
+      setNavOpen(!nav.classList.contains('is-open'));
+    });
+
+    submenuTrigger.addEventListener('click', (event) => {
+      if (!isMobileNav()) {
+        return;
+      }
+
+      event.preventDefault();
+      setSubmenuOpen(!submenuItem.classList.contains('is-submenu-open'));
+    });
+
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (link === submenuTrigger && isMobileNav()) {
+          return;
+        }
+
+        setNavOpen(false);
+      });
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setNavOpen(false);
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 760) {
+        setNavOpen(false);
+        setSubmenuOpen(false);
+      }
+    });
+
     const historySection = document.querySelector('.history');
     const timelineItems = document.querySelectorAll('.timeline-item');
 
